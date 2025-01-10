@@ -63,6 +63,27 @@ app.get('/books', async (request, response) => {
     }
 });
 
+// Route to get one book from the database by ID
+app.get('/books/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+
+        // Fetch the book with the specified ID
+        const book = await Book.findById(id);
+
+        // If book is not found, return a 404 error
+        if (!book) {
+            return response.status(404).send({ message: 'Book not found' });
+        }
+
+        // Return the book details
+        return response.status(200).json(book);
+    } catch (error) {
+        console.error(error.message);
+        response.status(500).send({ message: error.message });
+    }
+});
+
 // Connect to MongoDB and start the server
 mongoose
     .connect(MongoDBURL)
