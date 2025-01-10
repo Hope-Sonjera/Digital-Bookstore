@@ -109,9 +109,28 @@ app.put('/books/:id', async (req, res) => {
   }
 });
 
+// Route to Delete a Book by ID
+app.delete('/books/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Attempt to delete the book
+    const result = await Book.findByIdAndDelete(id);
+
+    if (!result) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
+
+    return res.status(200).json({ message: 'Book deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting book:', error.message);
+    res.status(500).json({ message: 'Server error. Could not delete the book.' });
+  }
+});
+
 // Connect to MongoDB and Start the Server
 mongoose
-  .connect(MongoDBURL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(MongoDBURL)
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(PORT, () => {
