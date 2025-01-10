@@ -46,6 +46,14 @@ app.post('/books', async (request, response) => {
     }
 });
 
+//Route to get all books from the database
+app.get('/books', async (request, response) => {
+    try {
+
+    } catch (error) {
+        console.log(error.message);
+    }
+})
 // Connect to MongoDB and start the server
 mongoose
     .connect(MongoDBURL)
