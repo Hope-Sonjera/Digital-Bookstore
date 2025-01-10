@@ -46,14 +46,23 @@ app.post('/books', async (request, response) => {
     }
 });
 
-//Route to get all books from the database
+// Route to get all books from the database
 app.get('/books', async (request, response) => {
     try {
-
+        // Fetch all books from the database
+        const books = await Book.find({});
+        
+        // Return the list of books
+        return response.status(200).json({
+            count: books.length,
+            data: books
+        });
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
+        response.status(500).send({ message: error.message });
     }
-})
+});
+
 // Connect to MongoDB and start the server
 mongoose
     .connect(MongoDBURL)
