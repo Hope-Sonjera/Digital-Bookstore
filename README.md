@@ -1,1 +1,1 @@
-# MIE-Library-App
+# This is a digital bookstore
